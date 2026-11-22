@@ -394,7 +394,6 @@ details:not([open]) > :not(summary) { display: none; }
 .st-dot.mastered { background: var(--mastered); }
 .st-dot.intuition { background: var(--intuition); }
 .st-flag { font-size: 10px; font-weight: 700; color: var(--todo); }
-.st-liked { font-size: 10.5px; color: var(--mastered); }
 
 /* 右栏：无边框极简双标签（大纲 · 溯源） */
 #right-aside {

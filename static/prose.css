@@ -37,7 +37,6 @@ body.wide { --measure: 60rem; }
 }
 .act-btn:hover { border-color: var(--line-strong); color: var(--fg); }
 .act-btn.flagged { border-color: var(--todo); color: var(--todo); background: color-mix(in srgb, var(--todo) 10%, transparent); }
-.act-btn.liked { border-color: var(--mastered); color: var(--mastered); background: color-mix(in srgb, var(--mastered) 11%, transparent); }
 .act-btn.published { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); font-weight: 600; }
 
 /* 正文排版 */
@@ -152,14 +151,9 @@ details.callout[open] > .callout-title::after { content: "收起"; }
 .fb-box { width: min(520px, calc(100vw - 32px)); background: var(--bg-elev); border: 1px solid var(--line-strong); border-radius: 14px; padding: 18px 20px; box-shadow: var(--shadow); }
 .fb-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
 .fb-head h3 { margin: 0; font-size: 15px; }
-.fb-modes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-.fb-mode { border: 1px solid var(--line); background: var(--panel); color: var(--fg-soft); border-radius: 10px; padding: 9px; font-size: 13px; font-weight: 600; cursor: pointer; }
-.fb-mode.on[data-mode="keep"] { border-color: var(--mastered); color: var(--mastered); background: color-mix(in srgb, var(--mastered) 12%, transparent); }
-.fb-mode.on[data-mode="todo"] { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 .fb-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
 .fb-tag { border: 1px solid var(--line); background: var(--panel); color: var(--fg-soft); border-radius: 99px; padding: 4px 11px; font-size: 12px; cursor: pointer; }
 .fb-tag.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
-.fb-tag.on.good { background: var(--mastered); border-color: var(--mastered); color: #fff; }
 #fb-note { width: 100%; min-height: 74px; border: 1px solid var(--line); background: var(--bg); border-radius: 9px; padding: 9px 11px; font-size: 13.5px; resize: vertical; outline: none; }
 .fb-ctx { margin-bottom: 10px; padding: 8px 10px; border-radius: 8px; background: var(--panel); border-left: 3px solid var(--accent); font-size: 12.5px; }
 .fb-ctx[hidden] { display: none; }
