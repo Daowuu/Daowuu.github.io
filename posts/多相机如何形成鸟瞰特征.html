@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>几台相机的画面，怎么放进同一张鸟瞰地图？ · Elysia</title>
-<meta name="description" content="单目相机很难直接猜准每个像素离车多远，所以 BEVFormer 反过来做——先以自车为中心在地面铺一张空俯视棋盘（BEV），再让每个棋盘格竖起一根带高度锚点的 3D 标尺，主动投影回各台相机画面里，只去落点附近抓取相关特征并拼回自己格子里。 车周通常装着前、左前、右前、后等 6 台环视相机。同一时刻，前向相机拍到邻车尾部，左前相…">
+<title>多相机鸟瞰 · Elysia</title>
+<meta name="description" content="几台相机的画面，怎么放进同一张鸟瞰地图？ — 单目相机很难直接猜准每个像素离车多远，所以 BEVFormer 反过来做——先以自车为中心在地面铺一张空俯视棋盘（BEV），再让每个棋盘格竖起一根带高度锚点的 3D 标尺，主动投影回各台相机画面里，只去落点附近抓取相关特征并拼回自己格子里。 车周通常装着前、左前、右前、后等 6 台环视相机。同一时刻，前向相机拍到邻车尾部，左前相…">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../static/katex/katex.min.css">
 <link rel="stylesheet" href="../static/hl.css">
@@ -34,6 +34,7 @@
     <header class="article-hero">
       <div class="article-meta">
         <span class="post-cat">智能驾驶</span>
+        <span class="post-tag-muted">多相机鸟瞰</span><span>·</span>
         <span>2026-11-22</span>
         <span>·</span>
         <span>约 6769 字 · 16 分钟</span>
