@@ -38,25 +38,25 @@
   let ovCat = "all";
   let ovQuery = "";
 
-  // ===== 外观设置（与本地阅读器完全一致：暖纸 / 纯白 / 深墨、字号、栏宽、专注模式） =====
+  // ===== 外观设置（与本地阅读器 prefs.js 100% 同步：相同 key、相同字号范围 15–21px、相同标准/宽屏栏宽） =====
   const THEMES = ["paper", "light", "dark"];
-  let fs = Math.max(15, Math.min(20, Number(getLS("elysia-blog-fs", "17")) || 17));
+  let fs = Math.max(15, Math.min(21, Number(getLS("elysia-fs", "17")) || 17));
   function setTheme(th) {
     const t = THEMES.includes(th) ? th : "paper";
     document.documentElement.dataset.theme = t;
-    setLS("elysia-blog-th", t);
+    setLS("elysia-color-theme", t);
     document.querySelectorAll("#theme-swatches .swatch").forEach((b) => b.classList.toggle("on", b.dataset.th === t));
   }
   function setFs(v) {
-    fs = Math.max(15, Math.min(20, v));
+    fs = Math.max(15, Math.min(21, v));
     document.documentElement.style.setProperty("--fs", fs + "px");
-    setLS("elysia-blog-fs", fs);
+    setLS("elysia-fs", fs);
     const el = document.getElementById("fs-val");
     if (el) el.textContent = fs + "px";
   }
   function setWide(wide) {
     document.body.classList.toggle("wide", wide);
-    setLS("elysia-blog-wide", wide ? "1" : "0");
+    setLS("elysia-wide", wide ? "1" : "0");
     document.getElementById("width-std")?.classList.toggle("on", !wide);
     document.getElementById("width-wide")?.classList.toggle("on", wide);
   }
@@ -64,11 +64,9 @@
     document.body.classList.toggle("zen", on);
     document.getElementById("zen-toggle")?.classList.toggle("on", on);
   }
-  setTheme(getLS("elysia-blog-th", "paper"));
+  setTheme(getLS("elysia-color-theme", "paper"));
   setFs(fs);
-  setWide(getLS("elysia-blog-wide", "0") === "1");
-  if (getLS("elysia-blog-hide-nav") === "1") document.body.classList.add("hide-nav");
-  if (getLS("elysia-blog-hide-aside") === "1") document.body.classList.add("hide-aside");
+  setWide(getLS("elysia-wide", "0") === "1");
 
   document.getElementById("rail-pref").onclick = (e) => { e.stopPropagation(); prefPop.hidden = !prefPop.hidden; };
   document.querySelectorAll("#theme-swatches .swatch").forEach((b) => { b.onclick = () => setTheme(b.dataset.th); });
@@ -82,25 +80,21 @@
   document.getElementById("nav-collapse").onclick = () => {
     if (isMobile()) { document.body.classList.remove("mob-nav"); return; }
     document.body.classList.add("hide-nav");
-    setLS("elysia-blog-hide-nav", "1");
   };
   document.getElementById("edge-open-nav").onclick = () => {
     if (isMobile()) { document.body.classList.remove("mob-aside"); document.body.classList.add("mob-nav"); return; }
     document.body.classList.remove("hide-nav");
-    setLS("elysia-blog-hide-nav", "0");
   };
   document.getElementById("aside-collapse").onclick = () => {
     if (isMobile()) { document.body.classList.remove("mob-aside"); return; }
     document.body.classList.add("hide-aside");
-    setLS("elysia-blog-hide-aside", "1");
   };
   document.getElementById("edge-open-aside").onclick = () => {
     if (isMobile()) { document.body.classList.remove("mob-nav"); document.body.classList.add("mob-aside"); return; }
     document.body.classList.remove("hide-aside");
-    setLS("elysia-blog-hide-aside", "0");
   };
 
-  // ===== 视图 1：总览（极简留白，不显示冗余标题/宣传语，直接呈现分类筛选与精选卡片） =====
+  // ===== 视图 1：总览（与本地 overview.js 同款 view-wrap wide = 1020px 宽度，无冗余标题） =====
   function renderOverview() {
     const cats = [{ id: "all", label: `全部 (${POSTS.length})` }, ...DOMAINS.map((d) => ({ id: d.title, label: `${d.title} (${d.posts.length})` }))];
     const filtered = POSTS.filter((p) => {
@@ -111,7 +105,7 @@
     });
 
     viewOverview.innerHTML = `
-      <div class="view-wrap blog-ov-wrap">
+      <div class="view-wrap wide blog-ov-wrap">
         <div class="input-row" style="margin-bottom:14px;align-items:center;flex-wrap:wrap">
           <div class="pill-row" style="margin:0;flex:1">
             ${cats.map((c) => `<button type="button" class="pill-btn ${ovCat === c.id ? "on" : ""}" data-cat="${esc(c.id)}">${esc(c.label)}</button>`).join("")}
@@ -397,8 +391,7 @@
     else if (e.key.toLowerCase() === "d") { const cur = document.documentElement.dataset.theme || "paper"; setTheme(THEMES[(THEMES.indexOf(cur) + 1) % THEMES.length]); }
     else if (e.key.toLowerCase() === "f" && currentView === "read") setZen(!document.body.classList.contains("zen"));
     else if (e.key.toLowerCase() === "b" && currentView === "read") {
-      const col = document.body.classList.toggle("hide-nav");
-      setLS("elysia-blog-hide-nav", col ? "1" : "0");
+      document.body.classList.toggle("hide-nav");
     }
   });
 
