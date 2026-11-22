@@ -1,0 +1,341 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 450" width="920" height="450" role="img" aria-label="多相机 2D 画面转 BEV 鸟瞰特征流程动画">
+  <defs>
+    <style>
+      .f { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, sans-serif; }
+      .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+      .title { font-size: 16.5px; font-weight: 700; fill: #24211c; }
+      .sub { font-size: 12.5px; font-weight: 700; fill: #4a443b; }
+      .lbl { font-size: 11px; fill: #4a443b; }
+      .muted { font-size: 10.8px; fill: #7e776c; }
+      .accent { font-size: 11.5px; font-weight: 700; fill: #6d28d9; }
+
+      /* 8 秒四阶段循环动画 */
+      @keyframes step1 {
+        0%, 24% { opacity: 1; }
+        26%, 98% { opacity: 0.36; }
+        100% { opacity: 1; }
+      }
+      @keyframes step2 {
+        0%, 23% { opacity: 0.36; }
+        25%, 49% { opacity: 1; }
+        51%, 100% { opacity: 0.36; }
+      }
+      @keyframes step3 {
+        0%, 48% { opacity: 0.36; }
+        50%, 74% { opacity: 1; }
+        76%, 100% { opacity: 0.36; }
+      }
+      @keyframes step4 {
+        0%, 73% { opacity: 0.36; }
+        75%, 97% { opacity: 1; }
+        100% { opacity: 0.36; }
+      }
+
+      /* 阶段 1：BEV 格子脉冲高亮；阶段 4：写回填满 */
+      @keyframes cellFill {
+        0%, 74% { fill: #f3e8ff; stroke: #7c3aed; }
+        82%, 96% { fill: #a855f7; stroke: #ec4899; }
+        100% { fill: #f3e8ff; stroke: #7c3aed; }
+      }
+      @keyframes cellText {
+        0%, 74% { fill: #6b21d6; }
+        82%, 96% { fill: #ffffff; }
+        100% { fill: #6b21d6; }
+      }
+      @keyframes cellRing {
+        0%, 22% { opacity: 0.85; transform: scale(1); }
+        12% { opacity: 0.2; transform: scale(1.18); }
+        25%, 74% { opacity: 0; transform: scale(1); }
+        80%, 95% { opacity: 0.9; transform: scale(1.1); }
+        100% { opacity: 0; transform: scale(1); }
+      }
+
+      /* 阶段 2：立柱与 4 个高度参考点逐个亮起 */
+      @keyframes pillarRise {
+        0%, 18% { stroke-dashoffset: 185; opacity: 0.2; }
+        34%, 95% { stroke-dashoffset: 0; opacity: 1; }
+        100% { stroke-dashoffset: 185; opacity: 0.2; }
+      }
+      @keyframes ptPop1 {
+        0%, 22% { opacity: 0.2; transform: scale(0.65); }
+        28%, 95% { opacity: 1; transform: scale(1); }
+        100% { opacity: 0.2; transform: scale(0.65); }
+      }
+      @keyframes ptPop2 {
+        0%, 27% { opacity: 0.2; transform: scale(0.65); }
+        33%, 95% { opacity: 1; transform: scale(1); }
+        100% { opacity: 0.2; transform: scale(0.65); }
+      }
+      @keyframes ptPop3 {
+        0%, 32% { opacity: 0.2; transform: scale(0.65); }
+        38%, 95% { opacity: 1; transform: scale(1); }
+        100% { opacity: 0.2; transform: scale(0.65); }
+      }
+      @keyframes ptPop4 {
+        0%, 37% { opacity: 0.2; transform: scale(0.65); }
+        43%, 95% { opacity: 1; transform: scale(1); }
+        100% { opacity: 0.2; transform: scale(0.65); }
+      }
+
+      /* 阶段 3：4 条彩色投影射线清晰射向命中相机，不淡到看不清 */
+      @keyframes rayDraw {
+        0%, 46% { stroke-dashoffset: 380; opacity: 0; }
+        56%, 76% { stroke-dashoffset: 0; opacity: 0.98; }
+        84%, 96% { stroke-dashoffset: 0; opacity: 0.58; }
+        100% { stroke-dashoffset: 0; opacity: 0; }
+      }
+      @keyframes samplePulse {
+        0%, 52% { opacity: 0; transform: scale(0.55); }
+        60%, 76% { opacity: 1; transform: scale(1.06); }
+        68% { opacity: 0.88; transform: scale(1.18); }
+        84%, 96% { opacity: 0.72; transform: scale(1); }
+        100% { opacity: 0; transform: scale(0.55); }
+      }
+
+      /* 阶段 4：采样特征沿底部回流弧线写回 BEV 格 */
+      @keyframes returnDraw {
+        0%, 72% { stroke-dashoffset: 920; opacity: 0; }
+        83%, 95% { stroke-dashoffset: 0; opacity: 1; }
+        100% { stroke-dashoffset: 0; opacity: 0; }
+      }
+      @keyframes badgeFade {
+        0%, 76% { opacity: 0; }
+        82%, 95% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+
+      .s1 { animation: step1 8s infinite; }
+      .s2 { animation: step2 8s infinite; }
+      .s3 { animation: step3 8s infinite; }
+      .s4 { animation: step4 8s infinite; }
+
+      .q-cell { animation: cellFill 8s infinite; }
+      .q-txt { animation: cellText 8s infinite; }
+      .q-ring { transform-origin: 112px 202px; animation: cellRing 8s infinite; }
+
+      .pillar-axis { stroke-dasharray: 185; animation: pillarRise 8s infinite; }
+      .pt1 { transform-origin: 416px 312px; animation: ptPop1 8s infinite; }
+      .pt2 { transform-origin: 416px 268px; animation: ptPop2 8s infinite; }
+      .pt3 { transform-origin: 416px 224px; animation: ptPop3 8s infinite; }
+      .pt4 { transform-origin: 416px 180px; animation: ptPop4 8s infinite; }
+
+      .ray { stroke-dasharray: 380; animation: rayDraw 8s infinite; }
+      .sp4 { transform-origin: 676px 158px; animation: samplePulse 8s infinite; }
+      .sp3 { transform-origin: 676px 190px; animation: samplePulse 8s infinite; }
+      .sp2 { transform-origin: 676px 254px; animation: samplePulse 8s infinite; }
+      .sp1 { transform-origin: 676px 286px; animation: samplePulse 8s infinite; }
+
+      .ret-arc { stroke-dasharray: 920; animation: returnDraw 8s infinite; }
+      .done-badge { animation: badgeFade 8s infinite; }
+    </style>
+
+    <linearGradient id="card-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fdfcf9"/>
+      <stop offset="100%" stop-color="#f7f4ec"/>
+    </linearGradient>
+    <linearGradient id="ret-grad" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0%" stop-color="#f472b6"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="pillar-fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f472b6" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.22"/>
+    </linearGradient>
+    <marker id="arr-pink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M 1 2 L 8 5 L 1 8 z" fill="#ec4899"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M 1 2 L 8 5 L 1 8 z" fill="#a855f7"/>
+    </marker>
+    <marker id="arr-violet" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M 1 2 L 8 5 L 1 8 z" fill="#7c3aed"/>
+    </marker>
+    <marker id="arr-indigo" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M 1 2 L 8 5 L 1 8 z" fill="#4f46e5"/>
+    </marker>
+  </defs>
+
+  <!-- 背景底板 -->
+  <rect x="4" y="4" width="912" height="442" rx="16" fill="url(#card-bg)" stroke="#e6dfd1" stroke-width="1.2"/>
+
+  <!-- 主标题 -->
+  <text x="460" y="33" text-anchor="middle" class="f title">动态演示：BEVFormer 如何把多台 2D 相机特征汇入 1 个 BEV 鸟瞰格</text>
+
+  <!-- 顶部 4 阶段同步进度胶囊 -->
+  <g transform="translate(32, 46)">
+    <g class="s1">
+      <rect x="0" y="0" width="196" height="26" rx="13" fill="#f3e8ff" stroke="#a855f7" stroke-width="1.2"/>
+      <text x="98" y="17" text-anchor="middle" class="f accent">① 选定 BEV 空格 Qₚ</text>
+    </g>
+    <g class="s2">
+      <rect x="214" y="0" width="206" height="26" rx="13" fill="#f3e8ff" stroke="#a855f7" stroke-width="1.2"/>
+      <text x="317" y="17" text-anchor="middle" class="f accent">② 立起 3D 高度参考点柱</text>
+    </g>
+    <g class="s3">
+      <rect x="438" y="0" width="212" height="26" rx="13" fill="#fdf2f8" stroke="#f472b6" stroke-width="1.2"/>
+      <text x="544" y="17" text-anchor="middle" class="f" font-size="11.5" font-weight="700" fill="#be185d">③ 投影到命中相机局部采样</text>
+    </g>
+    <g class="s4">
+      <rect x="668" y="0" width="188" height="26" rx="13" fill="#fdf2f8" stroke="#ec4899" stroke-width="1.2"/>
+      <text x="762" y="17" text-anchor="middle" class="f" font-size="11.5" font-weight="700" fill="#9d174d">④ 加权写回 BEV 格子</text>
+    </g>
+  </g>
+
+  <!-- ==================== 区域 A：左侧 BEV 俯视棋盘 ==================== -->
+  <rect x="24" y="88" width="248" height="292" rx="12" fill="#ffffff" stroke="#e8e2d6" stroke-width="1"/>
+  <text x="42" y="112" class="f sub">BEV 鸟瞰棋盘（自车俯视）</text>
+
+  <!-- 5x5 网格：左上 (58, 148)，每格 36x36 -->
+  <g stroke="#e4ddd0" stroke-width="1" fill="#fbfaf6">
+    <rect x="58" y="148" width="180" height="180" rx="4"/>
+    <line x1="94" y1="148" x2="94" y2="328"/>
+    <line x1="130" y1="148" x2="130" y2="328"/>
+    <line x1="166" y1="148" x2="166" y2="328"/>
+    <line x1="202" y1="148" x2="202" y2="328"/>
+    <line x1="58" y1="184" x2="238" y2="184"/>
+    <line x1="58" y1="220" x2="238" y2="220"/>
+    <line x1="58" y1="256" x2="238" y2="256"/>
+    <line x1="58" y1="292" x2="238" y2="292"/>
+  </g>
+
+  <!-- 目标查询格 (col=1, row=1) -->
+  <rect x="94" y="184" width="36" height="36" rx="4" class="q-cell" stroke-width="2"/>
+  <rect x="92" y="182" width="40" height="40" rx="6" fill="none" stroke="#ec4899" stroke-width="1.8" class="q-ring"/>
+  <text x="112" y="206" text-anchor="middle" class="f q-txt" font-size="12" font-weight="700">Qₚ</text>
+
+  <!-- 自车中心 -->
+  <polygon points="148,226 156,246 148,242 140,246" fill="#24211c"/>
+  <text x="148" y="255" text-anchor="middle" class="f" font-size="9.5" font-weight="600" fill="#24211c">自车</text>
+
+  <!-- 写回完成小徽章（避开底部回流箭头 x=112） -->
+  <g class="done-badge">
+    <rect x="122" y="340" width="136" height="24" rx="7" fill="#fdf2f8" stroke="#f9a8d4" stroke-width="1"/>
+    <text x="190" y="356" text-anchor="middle" class="f" font-size="10.5" font-weight="700" fill="#be185d">✓ 已融合多相机特征</text>
+  </g>
+  <text x="148" y="138" text-anchor="middle" class="f muted">每个格子各自独立查询</text>
+
+  <!-- A -> B 连接箭头 -->
+  <path d="M 276 234 L 310 234" stroke="#7c3aed" stroke-width="1.8" stroke-dasharray="4 3" marker-end="url(#arr-violet)"/>
+
+  <!-- ==================== 区域 B：中间 3D 参考点柱 ==================== -->
+  <rect x="318" y="88" width="198" height="292" rx="12" fill="#ffffff" stroke="#e8e2d6" stroke-width="1"/>
+  <text x="334" y="112" class="f sub">3D 空间立柱（4 层高）</text>
+  <text x="334" y="130" class="f muted">同色连线对应右侧落点</text>
+
+  <!-- 地面菱形 -->
+  <polygon points="416,318 464,334 420,352 372,336" fill="#f3e8ff" stroke="#7c3aed" stroke-width="1.8"/>
+  <!-- 半透明柱体 -->
+  <polygon points="372,336 372,174 416,154 464,170 464,334 420,352" fill="url(#pillar-fill)" stroke="#d8b4fe" stroke-width="1" stroke-dasharray="3 3"/>
+
+  <!-- 竖直生长中心轴 -->
+  <line x1="416" y1="336" x2="416" y2="156" stroke="#7c3aed" stroke-width="2.2" class="pillar-axis" marker-end="url(#arr-violet)"/>
+
+  <!-- 4 个高度点（颜色严格与右侧 4 条投影线一一对应） -->
+  <g class="pt4">
+    <circle cx="416" cy="180" r="6" fill="#ec4899" stroke="#fff" stroke-width="2"/>
+    <text x="398" y="184" text-anchor="end" class="f" font-size="11" font-weight="700" fill="#be185d">z'₄ 限高杆</text>
+  </g>
+  <g class="pt3">
+    <circle cx="416" cy="224" r="6" fill="#a855f7" stroke="#fff" stroke-width="2"/>
+    <text x="398" y="228" text-anchor="end" class="f" font-size="11" font-weight="700" fill="#7e22ce">z'₃ 车顶</text>
+  </g>
+  <g class="pt2">
+    <circle cx="416" cy="268" r="6" fill="#7c3aed" stroke="#fff" stroke-width="2"/>
+    <text x="398" y="272" text-anchor="end" class="f" font-size="11" font-weight="700" fill="#5b21b6">z'₂ 车身</text>
+  </g>
+  <g class="pt1">
+    <circle cx="416" cy="312" r="6" fill="#4f46e5" stroke="#fff" stroke-width="2"/>
+    <text x="398" y="316" text-anchor="end" class="f" font-size="11" font-weight="700" fill="#3730a3">z'₁ 车道线</text>
+  </g>
+
+  <text x="417" y="370" text-anchor="middle" class="mono" font-size="10" fill="#6b21d6">外参+内参矩阵 Tᵢ 投影</text>
+
+  <!-- ==================== 区域 C：右侧多台相机 2D 特征图（落点区与文字区严格分离，零遮挡） ==================== -->
+  <rect x="598" y="88" width="298" height="292" rx="12" fill="#ffffff" stroke="#e8e2d6" stroke-width="1"/>
+  <text x="616" y="112" class="f sub">多台相机 2D 特征图（按高度投射）</text>
+
+  <!-- 相机 1：前向相机（命中） y=124..206 -->
+  <g transform="translate(616, 124)">
+    <rect x="0" y="0" width="262" height="84" rx="8" fill="#faf5ff" stroke="#c4b5fd" stroke-width="1.4"/>
+    <text x="10" y="18" class="f accent">前向相机 Front</text>
+    <rect x="200" y="5" width="52" height="17" rx="8.5" fill="#dcfce7"/>
+    <text x="226" y="17" text-anchor="middle" class="f" font-size="10" font-weight="700" fill="#15803d">命中 ✓</text>
+
+    <!-- 左侧干净的 2D 画面小画布（x=10..124, y=24..76） -->
+    <rect x="10" y="24" width="114" height="52" rx="5" fill="#ffffff" stroke="#ddd6fe" stroke-width="1"/>
+    <!-- 简笔高处横杆 + 中低处车尾，无重叠文字 -->
+    <line x1="16" y1="34" x2="118" y2="34" stroke="#fbcfe8" stroke-width="2"/>
+    <rect x="38" y="52" width="44" height="18" rx="3" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1"/>
+    <!-- 右侧清晰说明区（x=134..252），绝不与射线或采样点交叉 -->
+    <text x="134" y="38" class="f" font-size="10.5" font-weight="700" fill="#be185d">● z'₄ 投到画面上方</text>
+    <text x="134" y="54" class="f" font-size="10.5" font-weight="700" fill="#7e22ce">● z'₃ 投到前车顶部</text>
+    <text x="134" y="70" class="f muted">虚线圈 = 局部采样范围</text>
+  </g>
+  <!-- 前向相机内采样点（清晰落在左侧空白画布内，无文字遮挡） -->
+  <g class="sp4">
+    <circle cx="676" cy="158" r="10" fill="#ec4899" fill-opacity="0.12" stroke="#ec4899" stroke-width="1.6" stroke-dasharray="3 2"/>
+    <circle cx="676" cy="158" r="4.2" fill="#ec4899"/>
+    <text x="692" y="162" class="f" font-size="9.5" font-weight="700" fill="#be185d">z'₄</text>
+  </g>
+  <g class="sp3">
+    <circle cx="676" cy="190" r="10" fill="#a855f7" fill-opacity="0.12" stroke="#a855f7" stroke-width="1.6" stroke-dasharray="3 2"/>
+    <circle cx="676" cy="190" r="4.2" fill="#a855f7"/>
+    <text x="692" y="194" class="f" font-size="9.5" font-weight="700" fill="#7e22ce">z'₃</text>
+  </g>
+
+  <!-- 相机 2：左前相机（命中） y=218..302 -->
+  <g transform="translate(616, 218)">
+    <rect x="0" y="0" width="262" height="84" rx="8" fill="#fdf2f8" stroke="#fbcfe8" stroke-width="1.4"/>
+    <text x="10" y="18" class="f" font-size="11.5" font-weight="700" fill="#be185d">左前相机 Front-Left</text>
+    <rect x="200" y="5" width="52" height="17" rx="8.5" fill="#dcfce7"/>
+    <text x="226" y="17" text-anchor="middle" class="f" font-size="10" font-weight="700" fill="#15803d">命中 ✓</text>
+
+    <!-- 左侧干净的 2D 画面小画布（x=10..124, y=24..76） -->
+    <rect x="10" y="24" width="114" height="52" rx="5" fill="#ffffff" stroke="#fbcfe8" stroke-width="1"/>
+    <rect x="34" y="30" width="50" height="18" rx="3" fill="#f3e8ff" stroke="#d8b4fe" stroke-width="1"/>
+    <line x1="16" y1="68" x2="118" y2="68" stroke="#c7d2fe" stroke-width="2" stroke-dasharray="6 3"/>
+    <!-- 右侧清晰说明区 -->
+    <text x="134" y="38" class="f" font-size="10.5" font-weight="700" fill="#5b21b6">● z'₂ 投到侧面车身</text>
+    <text x="134" y="54" class="f" font-size="10.5" font-weight="700" fill="#3730a3">● z'₁ 投到地面车道线</text>
+    <text x="134" y="70" class="f muted">同一根柱可命中多相机</text>
+  </g>
+  <!-- 左前相机内采样点 -->
+  <g class="sp2">
+    <circle cx="676" cy="254" r="10" fill="#7c3aed" fill-opacity="0.12" stroke="#7c3aed" stroke-width="1.6" stroke-dasharray="3 2"/>
+    <circle cx="676" cy="254" r="4.2" fill="#7c3aed"/>
+    <text x="692" y="258" class="f" font-size="9.5" font-weight="700" fill="#5b21b6">z'₂</text>
+  </g>
+  <g class="sp1">
+    <circle cx="676" cy="286" r="10" fill="#4f46e5" fill-opacity="0.12" stroke="#4f46e5" stroke-width="1.6" stroke-dasharray="3 2"/>
+    <circle cx="676" cy="286" r="4.2" fill="#4f46e5"/>
+    <text x="692" y="290" class="f" font-size="9.5" font-weight="700" fill="#3730a3">z'₁</text>
+  </g>
+
+  <!-- 相机 3：后向相机（未命中） -->
+  <g transform="translate(616, 314)">
+    <rect x="0" y="0" width="262" height="52" rx="8" fill="#f8f7f4" stroke="#e2ddd3" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <text x="12" y="22" class="f muted" font-weight="600">后向相机 Back（其余未命中视角）</text>
+    <text x="12" y="40" class="f muted">投影落出 (0,1) 或在相机后方 → 掩码过滤，直接跳过</text>
+    <rect x="200" y="10" width="52" height="18" rx="9" fill="#efeae0"/>
+    <text x="226" y="23" text-anchor="middle" class="f muted" font-size="10">未命中</text>
+  </g>
+
+  <!-- ==================== 阶段 3 四条零交叉、高辨识度同色投影射线 ==================== -->
+  <g fill="none" stroke-width="2.3" stroke-linecap="round" class="ray">
+    <!-- z'4 粉红 → 前向相机上方 -->
+    <path d="M 424 180 C 505 162, 575 158, 662 158" stroke="#ec4899" marker-end="url(#arr-pink)"/>
+    <!-- z'3 亮紫 → 前向相机中上部 -->
+    <path d="M 424 224 C 510 212, 575 190, 662 190" stroke="#a855f7" marker-end="url(#arr-purple)"/>
+    <!-- z'2 紫蓝 → 左前相机车身 -->
+    <path d="M 424 268 C 510 264, 575 254, 662 254" stroke="#7c3aed" marker-end="url(#arr-violet)"/>
+    <!-- z'1 靛蓝 → 左前相机车道线 -->
+    <path d="M 424 312 C 510 302, 575 286, 662 286" stroke="#4f46e5" marker-end="url(#arr-indigo)"/>
+  </g>
+
+  <!-- ==================== 阶段 4 底部特征回流弧线（相机采样 → 写回 BEV 格 Q_p） ==================== -->
+  <path d="M 744 378 C 744 416, 112 416, 112 378 L 112 228" fill="none" stroke="url(#ret-grad)" stroke-width="2.6" stroke-linecap="round" class="ret-arc" marker-end="url(#arr-violet)"/>
+  <g class="done-badge">
+    <rect x="304" y="398" width="320" height="24" rx="12" fill="#ffffff" stroke="#f472b6" stroke-width="1.2"/>
+    <text x="464" y="414" text-anchor="middle" class="f" font-size="11.5" font-weight="700" fill="#9d174d">跨视角加权聚合特征 → 写回 BEV 查询格 Qₚ</text>
+  </g>
+</svg>

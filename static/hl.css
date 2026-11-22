@@ -1,0 +1,13 @@
+.hljs-comment,.hljs-quote{color:#8a867d;font-style:italic}
+.hljs-keyword,.hljs-selector-tag,.hljs-literal,.hljs-built_in{color:#a626a4}
+.hljs-string,.hljs-attr .hljs-string,.hljs-regexp,.hljs-addition{color:#50a14f}
+.hljs-number,.hljs-symbol,.hljs-bullet{color:#b76b01}
+.hljs-title,.hljs-section,.hljs-function .hljs-title,.hljs-title.function_{color:#4078f2}
+.hljs-attr,.hljs-attribute,.hljs-variable,.hljs-template-variable,.hljs-type,.hljs-name{color:#c18401}
+.hljs-meta,.hljs-deletion{color:#e45649}
+[data-theme=dark] .hljs-keyword,[data-theme=dark] .hljs-selector-tag,[data-theme=dark] .hljs-literal,[data-theme=dark] .hljs-built_in{color:#c678dd}
+[data-theme=dark] .hljs-string,[data-theme=dark] .hljs-regexp,[data-theme=dark] .hljs-addition{color:#98c379}
+[data-theme=dark] .hljs-number,[data-theme=dark] .hljs-symbol{color:#d19a66}
+[data-theme=dark] .hljs-title,[data-theme=dark] .hljs-section{color:#61afef}
+[data-theme=dark] .hljs-attr,[data-theme=dark] .hljs-variable,[data-theme=dark] .hljs-type,[data-theme=dark] .hljs-name{color:#e5c07b}
+[data-theme=dark] .hljs-meta,[data-theme=dark] .hljs-deletion{color:#e06c75}

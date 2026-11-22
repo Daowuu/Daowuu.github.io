@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 420" width="920" height="420" role="img" aria-label="BEVFormer 编码层时序自注意力与空间交叉注意力执行顺序及首帧例外">
+  <defs>
+    <style>
+      .f { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, sans-serif; }
+      .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+      .title { font-size: 16.5px; font-weight: 700; fill: #24211c; }
+      .sub { font-size: 12.5px; font-weight: 700; fill: #24211c; }
+      .lbl { font-size: 11.2px; fill: #4a443b; }
+      .muted { font-size: 10.5px; fill: #7e776c; }
+      .accent { font-size: 11.5px; font-weight: 700; fill: #6d28d9; }
+      .pink { font-size: 11.5px; font-weight: 700; fill: #be185d; }
+      .warn { font-size: 11.5px; font-weight: 700; fill: #b45309; }
+      .good { font-size: 11.5px; font-weight: 700; fill: #15803d; }
+
+      @keyframes flowDash {
+        from { stroke-dashoffset: 24; }
+        to { stroke-dashoffset: 0; }
+      }
+      .flow { stroke-dasharray: 6 6; animation: flowDash 1.4s linear infinite; }
+    </style>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fdfcf9"/>
+      <stop offset="100%" stop-color="#f7f4ec"/>
+    </linearGradient>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 1 2 L 8 5 L 1 8 z" fill="#7c3aed"/>
+    </marker>
+    <marker id="arr-pink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 1 2 L 8 5 L 1 8 z" fill="#ec4899"/>
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 1 2 L 8 5 L 1 8 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <rect x="4" y="4" width="912" height="412" rx="16" fill="url(#bg)" stroke="#e6dfd1" stroke-width="1.2"/>
+  <text x="460" y="33" text-anchor="middle" class="f title">BEVFormer 单个编码层全景：先融历史，再看当前，最后输出给下一帧</text>
+
+  <!-- ==================== 上半部分：常规帧 (t > 1) ==================== -->
+  <rect x="24" y="50" width="872" height="202" rx="12" fill="#ffffff" stroke="#d8b4fe" stroke-width="1.3"/>
+  <rect x="38" y="62" width="160" height="22" rx="11" fill="#f3e8ff" stroke="#c4b5fd"/>
+  <text x="118" y="77" text-anchor="middle" class="f accent">常规帧（t &gt; 1 · 有历史）</text>
+  <text x="210" y="77" class="f muted">固定顺序：① TSA → ② SCA → ③ FFN</text>
+
+  <!-- 输入 1：上一帧 BEV + 运动对齐 -->
+  <rect x="40" y="102" width="142" height="58" rx="9" fill="#faf5ff" stroke="#a855f7" stroke-width="1.4"/>
+  <text x="111" y="124" text-anchor="middle" class="f accent">上一帧 BEV (Bₜ₋₁)</text>
+  <text x="111" y="142" text-anchor="middle" class="f muted">按自车平移/旋转对齐</text>
+
+  <!-- 输入 2：当前可学习查询 Q_t -->
+  <rect x="40" y="176" width="142" height="50" rx="9" fill="#f8f7f4" stroke="#d6ccb8" stroke-width="1.3"/>
+  <text x="111" y="198" text-anchor="middle" class="f sub">当前查询 Qₜ</text>
+  <text x="111" y="214" text-anchor="middle" class="f muted">空棋盘槽位</text>
+
+  <!-- 箭头进入 ① TSA -->
+  <path d="M 184 131 L 236 146" fill="none" stroke="#7c3aed" stroke-width="2" class="flow" marker-end="url(#arr-p)"/>
+  <path d="M 184 201 L 236 180" fill="none" stroke="#7c3aed" stroke-width="2" class="flow" marker-end="url(#arr-p)"/>
+
+  <!-- 模块 ①：时序自注意力 TSA -->
+  <rect x="242" y="116" width="166" height="92" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.8"/>
+  <text x="325" y="140" text-anchor="middle" class="f accent">① 时序自注意力</text>
+  <text x="325" y="156" text-anchor="middle" class="mono" font-size="10" fill="#6b21d6">Temporal Self-Attention</text>
+  <text x="325" y="177" text-anchor="middle" class="f lbl">融合上一帧历史记忆</text>
+  <text x="325" y="194" text-anchor="middle" class="f muted">帮当前帧扛住短时遮挡</text>
+
+  <!-- 箭头 ① -> ② -->
+  <path d="M 410 162 L 452 162" fill="none" stroke="#ec4899" stroke-width="2.2" class="flow" marker-end="url(#arr-pink)"/>
+
+  <!-- 顶部输入：当前帧多相机特征 -->
+  <rect x="468" y="60" width="150" height="32" rx="7" fill="#fdf2f8" stroke="#fbcfe8" stroke-width="1.2"/>
+  <text x="543" y="80" text-anchor="middle" class="f pink">当前帧 6 相机 2D 特征</text>
+  <path d="M 543 93 L 543 111" fill="none" stroke="#ec4899" stroke-width="2" class="flow" marker-end="url(#arr-pink)"/>
+
+  <!-- 模块 ②：空间交叉注意力 SCA -->
+  <rect x="458" y="116" width="170" height="92" rx="10" fill="#fdf2f8" stroke="#ec4899" stroke-width="1.8"/>
+  <text x="543" y="140" text-anchor="middle" class="f pink">② 空间交叉注意力</text>
+  <text x="543" y="156" text-anchor="middle" class="mono" font-size="10" fill="#be185d">Spatial Cross-Attention</text>
+  <text x="543" y="177" text-anchor="middle" class="f lbl">3D 立柱投影 + 局部采样</text>
+  <text x="543" y="194" text-anchor="middle" class="f muted">（即前 3 节详细拆解）</text>
+
+  <!-- 箭头 ② -> ③ -->
+  <path d="M 630 162 L 668 162" fill="none" stroke="#7c3aed" stroke-width="2.2" class="flow" marker-end="url(#arr-p)"/>
+
+  <!-- 模块 ③：FFN & 输出 B_t -->
+  <rect x="674" y="116" width="198" height="92" rx="10" fill="#f0fdf4" stroke="#4ade80" stroke-width="1.6"/>
+  <text x="773" y="140" text-anchor="middle" class="f good">③ FFN → 当前帧 Bₜ</text>
+  <text x="773" y="162" text-anchor="middle" class="f lbl">• 送检测 / 占用 / 地图头解码</text>
+  <text x="773" y="180" text-anchor="middle" class="f lbl">• 缓存下来供下一帧 (t+1) 用</text>
+  <text x="773" y="198" text-anchor="middle" class="f muted">（多层 Encoder 重复 ①→②→③）</text>
+
+  <!-- 回传给下一帧的虚线循环指示 -->
+  <path d="M 773 209 L 773 236 L 111 236 L 111 232" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <rect x="356" y="225" width="210" height="20" rx="10" fill="#faf5ff" stroke="#e9d5ff"/>
+  <text x="461" y="239" text-anchor="middle" class="f accent" font-size="10">输出 Bₜ 缓存为下一帧的 Bₜ₋₁</text>
+
+  <!-- ==================== 下半部分：序列首帧例外 (t = 1) ==================== -->
+  <rect x="24" y="266" width="872" height="134" rx="12" fill="#fffbeb" stroke="#fde68a" stroke-width="1.4"/>
+  <rect x="38" y="278" width="184" height="22" rx="11" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="130" y="293" text-anchor="middle" class="f warn">⚠️ 首帧例外（t = 1 · 无历史）</text>
+  <text x="234" y="293" class="f" font-size="11.5" fill="#92400e">刚开机 / 场景切换第一帧没有 B₀ 怎么办？</text>
+
+  <!-- 首帧输入：两份 Q_1 -->
+  <rect x="40" y="314" width="166" height="68" rx="9" fill="#ffffff" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="123" y="338" text-anchor="middle" class="f warn">传入两份当前查询</text>
+  <text x="123" y="356" text-anchor="middle" class="mono" font-size="11" font-weight="700" fill="#b45309">(Q₁, Q₁)</text>
+  <text x="123" y="373" text-anchor="middle" class="f muted">代替缺失的 (B₀, Q₁)</text>
+
+  <path d="M 208 348 L 252 348" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arr-amber)"/>
+
+  <!-- 退化后的 TSA -->
+  <rect x="258" y="314" width="218" height="68" rx="9" fill="#ffffff" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="367" y="337" text-anchor="middle" class="f warn">① TSA 退化为纯自注意力</text>
+  <text x="367" y="356" text-anchor="middle" class="f lbl">不含任何真实历史信息</text>
+  <text x="367" y="373" text-anchor="middle" class="f muted">模块照常跑通，但历史=空</text>
+
+  <path d="M 478 348 L 520 348" fill="none" stroke="#ec4899" stroke-width="2" marker-end="url(#arr-pink)"/>
+
+  <!-- 正常执行 SCA -->
+  <rect x="526" y="314" width="174" height="68" rx="9" fill="#fdf2f8" stroke="#f472b6" stroke-width="1.5"/>
+  <text x="613" y="337" text-anchor="middle" class="f pink">② SCA 正常采样</text>
+  <text x="613" y="356" text-anchor="middle" class="f lbl">只靠当前帧多相机</text>
+  <text x="613" y="373" text-anchor="middle" class="f muted">照常构建首帧 BEV B₁</text>
+
+  <!-- 右侧工程红线 -->
+  <rect x="716" y="314" width="162" height="68" rx="9" fill="#fef2f2" stroke="#fca5a5"/>
+  <text x="797" y="336" text-anchor="middle" class="f" font-size="11" font-weight="700" fill="#b91c1c">排查红线</text>
+  <text x="797" y="354" text-anchor="middle" class="f" font-size="10.5" fill="#7f1d1d">“时序模块执行无报错”</text>
+  <text x="797" y="371" text-anchor="middle" class="f" font-size="10.5" font-weight="700" fill="#b91c1c">≠ 真的读到了历史！</text>
+</svg>

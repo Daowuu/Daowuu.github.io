@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 420" width="920" height="420" role="img" aria-label="BEV 鸟瞰格子坐标换算与 3D 高度参考点柱示意">
+  <defs>
+    <style>
+      .f { font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", -apple-system, sans-serif; }
+      .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+      .title { font-size: 17px; font-weight: 700; fill: #24211c; }
+      .sub { font-size: 13px; font-weight: 600; fill: #4a443b; }
+      .lbl { font-size: 12px; fill: #4a443b; }
+      .muted { font-size: 11.5px; fill: #7e776c; }
+      .accent { font-size: 12px; font-weight: 700; fill: #6b21d6; }
+      .tag { font-size: 11px; font-weight: 600; fill: #7c3aed; }
+    </style>
+    <linearGradient id="bg-card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fdfcf9"/>
+      <stop offset="100%" stop-color="#f7f4ec"/>
+    </linearGradient>
+    <linearGradient id="pillar-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.28"/>
+    </linearGradient>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 1 2 L 8 5 L 1 8 z" fill="#7c3aed"/>
+    </marker>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 1 2 L 8 5 L 1 8 z" fill="#7e776c"/>
+    </marker>
+  </defs>
+
+  <!-- 背景圆角底板 -->
+  <rect x="4" y="4" width="912" height="412" rx="16" fill="url(#bg-card)" stroke="#e6dfd1" stroke-width="1.2"/>
+
+  <!-- 主标题 -->
+  <text x="460" y="36" text-anchor="middle" class="f title">从 2D 鸟瞰格子到 3D 参考点柱：一格为什么要有多个高度锚点？</text>
+
+  <!-- ==================== 左侧面板：俯视 BEV 网格 ==================== -->
+  <rect x="28" y="58" width="356" height="304" rx="12" fill="#ffffff" stroke="#e8e2d6" stroke-width="1"/>
+  <text x="48" y="84" class="f sub">① 俯视 BEV 网格（地面坐标换算）</text>
+
+  <!-- 5x5 网格：左上 (78, 106)，每格 44x44 -->
+  <g stroke="#dfd8ca" stroke-width="1" fill="#fbfaf6">
+    <!-- 行 0..4 -->
+    <rect x="78" y="106" width="220" height="220" rx="4" fill="#fbfaf6"/>
+    <line x1="122" y1="106" x2="122" y2="326"/>
+    <line x1="166" y1="106" x2="166" y2="326"/>
+    <line x1="210" y1="106" x2="210" y2="326"/>
+    <line x1="254" y1="106" x2="254" y2="326"/>
+    <line x1="78" y1="150" x2="298" y2="150"/>
+    <line x1="78" y1="194" x2="298" y2="194"/>
+    <line x1="78" y1="238" x2="298" y2="238"/>
+    <line x1="78" y1="282" x2="298" y2="282"/>
+  </g>
+
+  <!-- 高亮目标查询格 (col=1, row=1) -> x=122..166, y=150..194 -->
+  <rect x="122" y="150" width="44" height="44" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2" rx="3"/>
+  <text x="144" y="170" text-anchor="middle" class="f accent">Qₚ</text>
+  <text x="144" y="185" text-anchor="middle" class="mono" font-size="9.5" fill="#6b21d6">(x, y)</text>
+
+  <!-- 自车中心格 (col=2, row=2) -> center (188, 216) -->
+  <polygon points="188,202 197,225 188,220 179,225" fill="#24211c"/>
+  <text x="188" y="236" text-anchor="middle" class="f" font-size="10.5" font-weight="600" fill="#24211c">自车 (0,0)</text>
+
+  <!-- 从自车指向查询格的位移虚线 -->
+  <line x1="183" y1="205" x2="168" y2="195" stroke="#7c3aed" stroke-width="1.4" stroke-dasharray="3 2.5" marker-end="url(#arr)"/>
+
+  <!-- 格宽 s 标注 -->
+  <line x1="254" y1="336" x2="298" y2="336" stroke="#7e776c" stroke-width="1.2"/>
+  <line x1="254" y1="331" x2="254" y2="341" stroke="#7e776c" stroke-width="1.2"/>
+  <line x1="298" y1="331" x2="298" y2="341" stroke="#7e776c" stroke-width="1.2"/>
+  <text x="276" y="352" text-anchor="middle" class="f muted">格宽 s</text>
+
+  <!-- 坐标轴提示 -->
+  <line x1="316" y1="298" x2="316" y2="252" stroke="#7e776c" stroke-width="1.3" marker-end="url(#arr-gray)"/>
+  <text x="316" y="244" text-anchor="middle" class="f muted">前 y'</text>
+  <line x1="316" y1="298" x2="354" y2="298" stroke="#7e776c" stroke-width="1.3" marker-end="url(#arr-gray)"/>
+  <text x="364" y="302" class="f muted">右 x'</text>
+
+  <!-- 公式标签 -->
+  <rect x="44" y="330" width="194" height="24" rx="6" fill="#faf6ff" stroke="#e4d4fc" stroke-width="1"/>
+  <text x="141" y="346" text-anchor="middle" class="mono" font-size="10.5" fill="#5b21b6">x'=(x-W/2)·s, y'=(y-H/2)·s</text>
+
+  <!-- 连接左右面板的引导箭头 -->
+  <path d="M 388 210 L 424 210" stroke="#7c3aed" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="406" y="198" text-anchor="middle" class="f tag">立起</text>
+  <text x="406" y="228" text-anchor="middle" class="f tag">3D 柱</text>
+
+  <!-- ==================== 右侧面板：3D 参考点柱 ==================== -->
+  <rect x="434" y="58" width="458" height="304" rx="12" fill="#ffffff" stroke="#e8e2d6" stroke-width="1"/>
+  <text x="454" y="84" class="f sub">② 在该地面格 (x', y') 沿竖直高度立起 N_ref 个参考点</text>
+
+  <!-- 透视地面格菱形（底部） -->
+  <!-- 外围邻格虚线 -->
+  <g stroke="#ece6da" stroke-width="1" fill="none">
+    <polygon points="564,296 634,316 574,344 504,324"/>
+    <polygon points="494,276 564,296 504,324 434,304" opacity="0.5"/>
+    <polygon points="634,316 704,336 644,364 574,344" opacity="0.5"/>
+  </g>
+  <!-- 高亮底面菱形 -->
+  <polygon points="564,296 634,316 574,344 504,324" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2"/>
+  <text x="574" y="357" text-anchor="middle" class="mono" font-size="10.5" font-weight="700" fill="#6b21d6">地面格中心 (x', y', 0)</text>
+
+  <!-- 半透明 3D 柱体轮廓 -->
+  <polygon points="504,324 504,132 564,104 634,124 634,316 574,344" fill="url(#pillar-grad)" stroke="#c4b5fd" stroke-width="1" stroke-dasharray="4 3"/>
+  <polygon points="564,104 634,124 574,152 504,132" fill="#f5f3ff" fill-opacity="0.5" stroke="#c4b5fd" stroke-width="1" stroke-dasharray="3 3"/>
+
+  <!-- 竖直中心高度轴 -->
+  <line x1="569" y1="319" x2="569" y2="108" stroke="#7c3aed" stroke-width="2.2" marker-end="url(#arr)"/>
+  <text x="569" y="100" text-anchor="middle" class="f accent">世界高度 z'</text>
+
+  <!-- 4 个高度锚点 + 右侧语义对象卡片 -->
+  <!-- z4: y=134 (上方限高杆/指示牌) -->
+  <circle cx="569" cy="134" r="6" fill="#f472b6" stroke="#ffffff" stroke-width="2"/>
+  <line x1="577" y1="134" x2="656" y2="134" stroke="#f472b6" stroke-width="1.3" stroke-dasharray="3 2"/>
+  <rect x="658" y="118" width="214" height="32" rx="7" fill="#fdf2f8" stroke="#fbcfe8" stroke-width="1"/>
+  <text x="670" y="138" class="f" font-size="11.5" font-weight="600" fill="#9d174d">z'₄ ≈ 4.0m</text>
+  <text x="742" y="138" class="f lbl">限高杆 / 上方指示牌</text>
+
+  <!-- z3: y=184 (SUV/货车顶部) -->
+  <circle cx="569" cy="184" r="6" fill="#a855f7" stroke="#ffffff" stroke-width="2"/>
+  <line x1="577" y1="184" x2="656" y2="184" stroke="#a855f7" stroke-width="1.3" stroke-dasharray="3 2"/>
+  <rect x="658" y="168" width="214" height="32" rx="7" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1"/>
+  <text x="670" y="188" class="f" font-size="11.5" font-weight="600" fill="#6b21a8">z'₃ ≈ 2.4m</text>
+  <text x="742" y="188" class="f lbl">货车车厢 / SUV 顶部</text>
+
+  <!-- z2: y=234 (邻车车身/车尾) -->
+  <circle cx="569" cy="234" r="6" fill="#7c3aed" stroke="#ffffff" stroke-width="2"/>
+  <line x1="577" y1="234" x2="656" y2="234" stroke="#7c3aed" stroke-width="1.3" stroke-dasharray="3 2"/>
+  <rect x="658" y="218" width="214" height="32" rx="7" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="1"/>
+  <text x="670" y="238" class="f" font-size="11.5" font-weight="600" fill="#5b21b6">z'₂ ≈ 1.2m</text>
+  <text x="742" y="238" class="f lbl">轿车车身 / 尾灯区域</text>
+
+  <!-- z1: y=284 (地面标线/路沿) -->
+  <circle cx="569" cy="284" r="6" fill="#4f46e5" stroke="#ffffff" stroke-width="2"/>
+  <line x1="577" y1="284" x2="656" y2="284" stroke="#4f46e5" stroke-width="1.3" stroke-dasharray="3 2"/>
+  <rect x="658" y="268" width="214" height="32" rx="7" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1"/>
+  <text x="670" y="288" class="f" font-size="11.5" font-weight="600" fill="#3730a3">z'₁ ≈ 0.2m</text>
+  <text x="742" y="288" class="f lbl">车道线 / 地面与路沿</text>
+
+  <!-- 左侧高度坐标小标 -->
+  <text x="488" y="215" text-anchor="middle" class="f muted">一根柱子含</text>
+  <text x="488" y="231" text-anchor="middle" class="f accent">N_ref 个点</text>
+
+  <!-- 底部核心提示条 -->
+  <rect x="28" y="374" width="864" height="28" rx="8" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1"/>
+  <text x="460" y="392" text-anchor="middle" class="f" font-size="12" fill="#5b21b6">核心直觉：参考点柱是「预设提问坐标」而非激光雷达测得的深度——下一步再把这 N_ref 个 3D 点分别投影到各相机去抓特征</text>
+</svg>
