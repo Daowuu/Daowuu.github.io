@@ -95,7 +95,7 @@
     fig.classList.toggle("is-paused", !play);
 
     const anims = typeof svg.getAnimations === "function" ? svg.getAnimations({ subtree: true }) : [];
-    const stepTimes = [1000, 3000, 5000, 7000]; // 8s 4 阶段每段中点（0-2s / 2-4s / 4-6s / 6-8s）
+    const stepTimes = [1600, 3800, 5800, 7600]; // 8s 4 阶段每段尾端稳态时刻，确保该步所有元素完整展开
 
     if (anims.length) {
       anims.forEach((a) => {
@@ -132,7 +132,7 @@
 
   async function upgradeOneImage(img, onLightbox) {
     const src = img.getAttribute("src") || "";
-    if (!src || !/\.svg(\?|#|$)/i.test(src) || img.dataset.animChecked) return;
+    if (!src || !/\.svg(\?|&|#|$)/i.test(src) || img.dataset.animChecked) return;
     img.dataset.animChecked = "1";
 
     let text = "";
