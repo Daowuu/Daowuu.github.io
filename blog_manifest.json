@@ -1,14 +1,15 @@
 {
-  "built_at": "2026-11-22T17:22:44",
+  "built_at": "2026-11-22T17:30:40",
   "site_url": "https://daowuu.github.io",
   "count": 1,
   "posts": [
     {
       "slug": "多相机如何形成鸟瞰特征",
+      "card_title": "多相机鸟瞰",
       "title": "几台相机的画面，怎么放进同一张鸟瞰地图？",
       "category": "智能驾驶",
       "date": "2026-11-22",
-      "url": "./posts/多相机如何形成鸟瞰特征.html"
+      "url": "./#read/%E5%A4%9A%E7%9B%B8%E6%9C%BA%E5%A6%82%E4%BD%95%E5%BD%A2%E6%88%90%E9%B8%9F%E7%9E%B0%E7%89%B9%E5%BE%81"
     }
   ]
 }

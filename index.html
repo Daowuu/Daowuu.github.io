@@ -3,58 +3,126 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Elysia · 个人技术博客</title>
-<meta name="description" content="用可视化、公式与一手证据拆解智能驾驶、推荐系统与工程思考。">
+<title>Elysia</title>
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
 <link rel="alternate" type="application/rss+xml" title="Elysia RSS" href="./feed.xml">
+<link rel="stylesheet" href="./static/katex/katex.min.css">
+<link rel="stylesheet" href="./static/hl.css">
 <link rel="stylesheet" href="./static/tokens.css">
-<link rel="stylesheet" href="./static/blog.css">
+<link rel="stylesheet" href="./static/shell.css">
+<link rel="stylesheet" href="./static/prose.css">
+<link rel="stylesheet" href="./static/views.css">
+<link rel="stylesheet" href="./static/blog_extra.css">
 </head>
-<body>
-<header class="blog-top">
-  <a class="blog-brand" href="./index.html">
-    <span class="blog-brand-mark"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><defs><linearGradient id="b-g1" x1="4" y1="3" x2="28" y2="29" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#9353f5"/><stop offset="100%" stop-color="#6b21d6"/></linearGradient><linearGradient id="b-p1" x1="8" y1="7" x2="24" y2="25" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#ffd6ec"/><stop offset="100%" stop-color="#f472b6"/></linearGradient></defs><rect x="1" y="1" width="30" height="30" rx="8.5" fill="url(#b-g1)"/><rect x="1.5" y="1.5" width="29" height="29" rx="8" stroke="#fbcfe8" stroke-opacity="0.36" stroke-width="1"/><circle cx="16" cy="16" r="9.6" stroke="#f9a8d4" stroke-opacity="0.48" stroke-width="1.05"/><path d="M16 5.8C16.8 12 20 15.2 26.2 16C20 16.8 16.8 20 16 26.2C15.2 20 12 16.8 5.8 16C12 15.2 15.2 12 16 5.8Z" fill="url(#b-p1)"/><circle cx="16" cy="16" r="1.8" fill="#ffffff"/></svg></span>
-    <span>Elysia</span>
-  </a>
-  <div class="blog-top-acts">
-    <a class="b-btn" href="./feed.xml">RSS</a>
-    <button type="button" id="theme-btn" class="b-btn">主题：暖纸</button>
+<body data-view="overview">
+<div id="read-progress"></div>
+
+<header id="top">
+  <div class="top-left">
+    <button id="brand-btn" class="brand-word" type="button" title="返回总览（1）">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><defs><linearGradient id="elysia-mark-grad" x1="4" y1="3" x2="28" y2="29" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="var(--brand-g1)"/><stop offset="100%" stop-color="var(--brand-g2)"/></linearGradient><linearGradient id="elysia-pink-grad" x1="8" y1="7" x2="24" y2="25" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="var(--brand-p1)"/><stop offset="100%" stop-color="var(--brand-p2)"/></linearGradient></defs><rect x="1" y="1" width="30" height="30" rx="8.5" fill="url(#elysia-mark-grad)"/><rect x="1.5" y="1.5" width="29" height="29" rx="8" stroke="#fbcfe8" stroke-opacity="0.36" stroke-width="1"/><circle cx="16" cy="16" r="9.6" stroke="#f9a8d4" stroke-opacity="0.48" stroke-width="1.05"/><path class="brand-star" d="M16 5.8C16.8 12 20 15.2 26.2 16C20 16.8 16.8 20 16 26.2C15.2 20 12 16.8 5.8 16C12 15.2 15.2 12 16 5.8Z" fill="url(#elysia-pink-grad)"/><circle cx="16" cy="16" r="1.8" fill="var(--brand-core)"/></svg></span>
+      <span class="brand-name">Elysia</span>
+    </button>
+  </div>
+
+  <nav class="top-nav" aria-label="主视图">
+    <button class="nav-link on" type="button" data-view="overview">总览</button>
+    <button class="nav-link" type="button" data-view="read">精读</button>
+  </nav>
+
+  <div class="top-right">
+    <a class="rss-link" href="./feed.xml" title="RSS 订阅">RSS</a>
+    <button id="zen-exit" class="ghost-pill" type="button">退出专注</button>
+    <button id="rail-search" class="icon-btn" type="button" title="全文搜索（⌘K 或 /）" aria-label="搜索">
+      <svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.3" stroke="currentColor" stroke-width="1.5"/><path d="M13.2 13.2L16.8 16.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <button id="rail-pref" class="icon-btn" type="button" title="阅读外观设置" aria-label="外观">Aa</button>
   </div>
 </header>
 
-<main class="home-wrap">
-  <section class="home-hero">
-    <div class="home-hero-accent"></div>
-    <h1>Elysia 的个人技术博客</h1>
-    <p>用可视化、公式与一手证据拆解智能驾驶、推荐系统与工程思考。</p>
-  </section>
+<section id="view-overview" class="view-pane"></section>
 
-  <section class="home-tools">
-    <div class="pill-row"><button type="button" class="pill on" data-cat="all">全部 (1)</button><button type="button" class="pill" data-cat="智能驾驶">智能驾驶 (1)</button></div>
-    <input id="blog-search" class="search-in" type="search" placeholder="筛选标题或关键词...">
-  </section>
+<section id="view-read" class="view-pane" hidden>
+  <button id="edge-open-nav" class="edge-reopen left" type="button" title="展开左侧目录（B）" aria-label="展开目录">
+    <svg viewBox="0 0 16 16" fill="none"><path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <button id="edge-open-aside" class="edge-reopen right" type="button" title="展开大纲" aria-label="展开大纲">
+    <svg viewBox="0 0 16 16" fill="none"><path d="M10 3.5L5.5 8L10 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
 
-  <section id="post-list" class="post-list">
-    <a class="post-card" href="./posts/%E5%A4%9A%E7%9B%B8%E6%9C%BA%E5%A6%82%E4%BD%95%E5%BD%A2%E6%88%90%E9%B8%9F%E7%9E%B0%E7%89%B9%E5%BE%81.html" data-cat="智能驾驶" data-search="多相机鸟瞰 几台相机的画面，怎么放进同一张鸟瞰地图？ 智能驾驶 单目相机很难直接猜准每个像素离车多远，所以 bevformer 反过来做——先以自车为中心在地面铺一张空俯视棋盘（bev），再让每个棋盘格竖起一根带高度锚点的 3d 标尺，主动投影回各台相机画面里，只去落点附近抓取相关特征并拼回自己格子里。 车周通常装着前、左前、右前、后等 6 台环视相机。同一时刻，前向相机拍到邻车尾部，左前相…">
-  <div class="post-meta">
-    <span class="post-cat">智能驾驶</span>
-    <span>2026-11-22</span>
-    <span>·</span>
-    <span>约 6769 字 · 16 分钟</span>
+  <aside id="library" aria-label="领域目录">
+    <div class="domain-wrap">
+      <div class="domain-row">
+        <button id="domain-btn" class="domain-head" type="button">
+          <span class="domain-name-wrap"><span id="domain-name" class="domain-name">领域</span><span class="chev">▾</span></span>
+          <span id="domain-stat" class="domain-stat"></span>
+        </button>
+        <button id="nav-collapse" class="pane-collapse" type="button" title="收起左侧目录（B）" aria-label="收起目录">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M10 3.5L5.5 8L10 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div id="domain-menu" class="domain-menu" hidden><div id="domain-list"></div></div>
+    </div>
+    <div id="topics"></div>
+  </aside>
+
+  <main id="main"><div id="stage"></div></main>
+
+  <aside id="right-aside" aria-label="本文大纲">
+    <div class="aside-tabs">
+      <button type="button" class="aside-tab on">大纲</button>
+      <button id="aside-collapse" class="pane-collapse aside-right-collapse" type="button" title="收起右侧大纲" aria-label="收起大纲">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div id="aside-toc" class="aside-pane"><div id="doctoc-list"></div></div>
+  </aside>
+</section>
+
+<div id="pref-pop" hidden role="dialog" aria-label="阅读外观设置">
+  <div class="pref-sec">
+    <div class="pref-label"><span>阅读主题</span><span>D</span></div>
+    <div class="theme-swatches" id="theme-swatches">
+      <button type="button" class="swatch" data-th="paper">暖纸</button>
+      <button type="button" class="swatch" data-th="light">纯白</button>
+      <button type="button" class="swatch" data-th="dark">深墨</button>
+    </div>
   </div>
-  <h2 class="post-title">多相机鸟瞰</h2>
-  <p class="post-sub">几台相机的画面，怎么放进同一张鸟瞰地图？</p>
-  <p class="post-excerpt">单目相机很难直接猜准每个像素离车多远，所以 BEVFormer 反过来做——先以自车为中心在地面铺一张空俯视棋盘（BEV），再让每个棋盘格竖起一根带高度锚点的 3D 标尺，主动投影回各台相机画面里，只去落点附近抓取相关特征并拼回自己格子里。 车周通常装着前、左前、右前、后等 6 台环视相机。同一时刻，前向相机拍到邻车尾部，左前相…</p>
-</a>
+  <div class="pref-sec">
+    <div class="pref-label"><span>正文字号</span></div>
+    <div class="pref-stepper">
+      <button type="button" class="pref-btn" id="fs-dec">A-</button>
+      <span class="pref-val" id="fs-val">17px</span>
+      <button type="button" class="pref-btn" id="fs-inc">A+</button>
+    </div>
+  </div>
+  <div class="pref-sec">
+    <div class="pref-label"><span>阅读栏宽</span></div>
+    <div class="pref-row">
+      <button type="button" class="pref-btn" id="width-std">标准</button>
+      <button type="button" class="pref-btn" id="width-wide">宽屏</button>
+    </div>
+  </div>
+  <div class="pref-div"></div>
+  <button type="button" class="pref-btn pref-full" id="zen-toggle"><span>专注阅读模式</span><span>F</span></button>
+</div>
 
-  </section>
-  <p id="empty-tip" class="post-excerpt" style="padding:20px 0" hidden>当前筛选条件下暂无文章。</p>
-</main>
+<div id="palette" class="modal-bg" hidden role="dialog" aria-label="全文搜索">
+  <div class="cmd-box">
+    <input id="cmd-input" placeholder="搜索已发布文章标题、问题或正文关键词...">
+    <div id="cmd-list"></div>
+    <div class="cmd-foot"><span>⌘K / 搜索</span><span>1 总览 · 2 精读</span><span>D 切主题 · F 专注 · B 切侧栏</span></div>
+  </div>
+</div>
 
-<footer class="blog-foot">
-  <span>© 2026 Elysia · 由个人认知库一键静态构建</span>
-  <span>共发布 1 篇精选文章</span>
-</footer>
-<script src="./static/blog.js"></script>
+<div id="lightbox" hidden>
+  <button type="button" id="lightbox-close">关闭 Esc</button>
+  <img id="lb-img" alt="放大预览">
+  <div id="lightbox-cap"></div>
+</div>
+
+<script src="./static/katex/katex.min.js"></script>
+<script src="./static/hl.js"></script>
+<script src="./static/blog_app.js"></script>
 </body>
 </html>

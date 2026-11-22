@@ -1,0 +1,32 @@
+/* 静态博客专属补充（完全沿用本地 Elysia 阅读器四套核心 CSS） */
+.blog-ref { color: var(--fg-soft); border-bottom: 1px dashed var(--line-strong); }
+.rss-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 9px;
+  border-radius: 7px;
+  font-size: 11.5px;
+  font-weight: 650;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.14s, background 0.14s;
+}
+.rss-link:hover { color: var(--accent); background: var(--panel); text-decoration: none; }
+.blog-ov-wrap { padding-top: 26px; }
+.blog-ov-sub { font-size: 13.5px; font-weight: 600; color: var(--fg-soft); margin: 4px 0 6px; line-height: 1.5; }
+.blog-ov-excerpt { font-size: 13px; color: var(--muted); line-height: 1.65; margin: 0; }
+.blog-ov-card {
+  display: block;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+.blog-ov-card:hover .v-title { color: var(--accent); }
+.pref-full {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

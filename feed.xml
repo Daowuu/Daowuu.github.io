@@ -3,13 +3,13 @@
 <channel>
   <title>Elysia</title>
   <link>https://daowuu.github.io/</link>
-  <description>用可视化、公式与一手证据拆解智能驾驶、推荐系统与工程思考。</description>
-  <lastBuildDate>Sun, 22 Nov 2026 09:22:44 +0000</lastBuildDate>
+  <description></description>
+  <lastBuildDate>Sun, 22 Nov 2026 09:30:40 +0000</lastBuildDate>
   <item>
-    <title>几台相机的画面，怎么放进同一张鸟瞰地图？</title>
+    <title>多相机鸟瞰：几台相机的画面，怎么放进同一张鸟瞰地图？</title>
     <link>https://daowuu.github.io/posts/%E5%A4%9A%E7%9B%B8%E6%9C%BA%E5%A6%82%E4%BD%95%E5%BD%A2%E6%88%90%E9%B8%9F%E7%9E%B0%E7%89%B9%E5%BE%81.html</link>
     <guid>https://daowuu.github.io/posts/%E5%A4%9A%E7%9B%B8%E6%9C%BA%E5%A6%82%E4%BD%95%E5%BD%A2%E6%88%90%E9%B8%9F%E7%9E%B0%E7%89%B9%E5%BE%81.html</guid>
-    <description>单目相机很难直接猜准每个像素离车多远，所以 BEVFormer 反过来做——先以自车为中心在地面铺一张空俯视棋盘（BEV），再让每个棋盘格竖起一根带高度锚点的 3D 标尺，主动投影回各台相机画面里，只去落点附近抓取相关特征并拼回自己格子里。 车周通常装着前、左前、右前、后等 6 台环视相机。同一时刻，前向相机拍到邻车尾部，左前相…</description>
+    <description>单目相机很难直接猜准每个像素离车多远，所以 BEVFormer 反过来做——先以自车为中心在地面铺一张空俯视棋盘（BEV），再让每个棋盘格竖起一根带高度锚点的 3D 标尺，主动投影回各台相机画面里，只去落点附近抓取相关特征并拼回自己格子里。 车周通常装着前、左前、右前、后等 6 台环视相机。同一时刻，前向相机拍到邻车尾…</description>
     <category>智能驾驶</category>
   </item>
 </channel>
