@@ -60,6 +60,12 @@
     document.getElementById("width-std")?.classList.toggle("on", !wide);
     document.getElementById("width-wide")?.classList.toggle("on", wide);
   }
+  function setAnim(on) {
+    setLS("elysia-anim", on ? "1" : "0");
+    document.getElementById("anim-on")?.classList.toggle("on", on);
+    document.getElementById("anim-off")?.classList.toggle("on", !on);
+    window.ElysiaSvgAnim?.applyGlobalAnimPref(on);
+  }
   function setZen(on) {
     document.body.classList.toggle("zen", on);
     document.getElementById("zen-toggle")?.classList.toggle("on", on);
@@ -67,6 +73,7 @@
   setTheme(getLS("elysia-color-theme", "paper"));
   setFs(fs);
   setWide(getLS("elysia-wide", "0") === "1");
+  setAnim(getLS("elysia-anim", "1") !== "0");
 
   document.getElementById("rail-pref").onclick = (e) => { e.stopPropagation(); prefPop.hidden = !prefPop.hidden; };
   document.querySelectorAll("#theme-swatches .swatch").forEach((b) => { b.onclick = () => setTheme(b.dataset.th); });
@@ -74,6 +81,8 @@
   document.getElementById("fs-inc").onclick = () => setFs(fs + 1);
   document.getElementById("width-std").onclick = () => setWide(false);
   document.getElementById("width-wide").onclick = () => setWide(true);
+  document.getElementById("anim-on")?.addEventListener("click", () => setAnim(true));
+  document.getElementById("anim-off")?.addEventListener("click", () => setAnim(false));
   document.getElementById("zen-toggle").onclick = () => { setZen(!document.body.classList.contains("zen")); prefPop.hidden = true; };
   document.getElementById("zen-exit").onclick = () => setZen(false);
 
@@ -275,14 +284,18 @@
         try { await navigator.clipboard.writeText(code); btn.textContent = "已复制"; setTimeout(() => { btn.textContent = "复制"; }, 1400); } catch (_) {}
       };
     });
+    const openLightbox = (src, cap) => {
+      lbImg.src = src;
+      if (lbCap) lbCap.textContent = cap || "";
+      lightbox.hidden = false;
+    };
     bodyEl.querySelectorAll("img").forEach((img) => {
       img.onclick = () => {
-        lbImg.src = img.src;
         const cap = img.nextElementSibling && img.nextElementSibling.tagName === "EM" ? img.nextElementSibling.textContent : img.alt;
-        if (lbCap) lbCap.textContent = cap || "";
-        lightbox.hidden = false;
+        openLightbox(img.src, cap);
       };
     });
+    window.ElysiaSvgAnim?.enhanceAnimatedSvgs(bodyEl, openLightbox);
     stage.querySelectorAll("a[data-slug]").forEach((a) => {
       a.onclick = (e) => { e.preventDefault(); openSlug(a.dataset.slug); };
     });
