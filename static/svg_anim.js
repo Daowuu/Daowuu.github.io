@@ -5,10 +5,11 @@
 
   function getAnimPref() {
     try {
-      const v = localStorage.getItem("elysia-anim");
-      if (v === "0" || v === "1") return v === "1";
+      const v = localStorage.getItem("elysia-anim-v2");
+      if (v === "1") return true;
+      if (v === "0") return false;
     } catch (_) {}
-    return true;
+    return false; // 默认不自动播放，安静停留在第 1 帧
   }
 
   // 将 SVG 内部 <style> 规则与 id/url(#...) 加上唯一作用域前缀，避免多图或与宿主页冲突
@@ -111,6 +112,7 @@
             a.play();
           } else {
             a.pause();
+            if (stepIndex === null && a.currentTime == null) a.currentTime = 0;
           }
         } catch (_) {}
       });
@@ -154,8 +156,9 @@
     const nextEm = img.nextElementSibling && img.nextElementSibling.tagName === "EM" ? img.nextElementSibling : null;
     const capText = nextEm ? nextEm.textContent : alt;
 
+    const autoPlay = getAnimPref();
     const fig = document.createElement("div");
-    fig.className = "anim-fig";
+    fig.className = autoPlay ? "anim-fig" : "anim-fig is-paused";
     fig.dataset.src = src;
 
     const bar = document.createElement("div");

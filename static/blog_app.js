@@ -61,7 +61,7 @@
     document.getElementById("width-wide")?.classList.toggle("on", wide);
   }
   function setAnim(on) {
-    setLS("elysia-anim", on ? "1" : "0");
+    setLS("elysia-anim-v2", on ? "1" : "0");
     document.getElementById("anim-on")?.classList.toggle("on", on);
     document.getElementById("anim-off")?.classList.toggle("on", !on);
     window.ElysiaSvgAnim?.applyGlobalAnimPref(on);
@@ -73,7 +73,7 @@
   setTheme(getLS("elysia-color-theme", "paper"));
   setFs(fs);
   setWide(getLS("elysia-wide", "0") === "1");
-  setAnim(getLS("elysia-anim", "1") !== "0");
+  setAnim(getLS("elysia-anim-v2", "0") === "1");
 
   document.getElementById("rail-pref").onclick = (e) => { e.stopPropagation(); prefPop.hidden = !prefPop.hidden; };
   document.querySelectorAll("#theme-swatches .swatch").forEach((b) => { b.onclick = () => setTheme(b.dataset.th); });
